@@ -1,0 +1,127 @@
+\documentclass[11pt]{article}
+\usepackage{listings}
+\usepackage[usenames,dvipsnames]{color}  
+\usepackage{titlesec}      
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{pdfpages}
+\usepackage{graphicx}
+\usepackage{listings}
+\usepackage{caption}
+\usepackage{proof}
+\usepackage{tabularx}
+\usepackage{xcolor}
+\usepackage{titlesec}
+\usepackage{rotating}
+\usepackage{float}
+\usepackage{tikz}
+\usepackage{hyperref}
+\usepackage{fontspec} % LuaTeX compatible font package
+\usepackage[left=2cm,right=2cm,top=2cm,bottom=2cm]{geometry}
+
+\usepackage[style=ieee]{biblatex}
+\addbibresource{refs.bib}
+
+\captionsetup{labelfont={small,bf}, textfont=small}
+
+\renewcommand*\thesection{\arabic{section}}
+\renewcommand{\familydefault}{\sfdefault}
+
+\titleformat{\section}{\fontsize{13pt}{15pt}\bfseries}{\thesection}{1em}{}
+\titleformat{\subsection}{\fontsize{13pt}{15pt}\bfseries}{\thesubsection}{1em}{}
+\titleformat{\subsubsection}{\fontsize{13pt}{15pt}\bfseries}{\thesubsubsection}{1em}{}
+
+\setmainfont{Carlito}
+
+\graphicspath{ {./plots/} }
+
+% Depth for table of contents and section numbering
+\setcounter{tocdepth}{4}
+\setcounter{secnumdepth}{4}
+        
+% Define colors for listings
+\definecolor{dkgreen}{rgb}{0,0.6,0}
+\definecolor{gray}{rgb}{0.5,0.5,0.5}
+\definecolor{mauve}{rgb}{0.58,0,0.82}
+
+% Set paragraph formatting
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{6pt}
+
+% Load TikZ libraries
+\usetikzlibrary{automata,positioning}
+\tikzstyle{every state}=[fill={rgb:black,1;white,10}]
+
+
+\begin{document}
+\newpage
+\subsubsection*{2.? Background: Logistic Regression}
+Demonstrate and describe the mechanics of the selected machine learning techniques.
+
+\newpage
+\subsection*{3. Data Preparation}
+\subsubsection*{3.1. Exploratory Analysis}
+The initial dataset consisted of 4424 records with 36 independent variables, with no missing values. The dataset was processed using the \textit{pandas} library in Python.
+
+\begin{itemize}
+    \item{\textbf{Note: Should I include means of variance tables despite not all variables being in the final MI dataset?}}
+\end{itemize}
+
+Each student entry has one of 3 Target variables: Graduated, Dropout, or Enrolled (where the student took another three years to complete the course). The distribution of the Target variable is shown in Figure~\ref{fig:target}, which shows that it is imbalanced, where the Graduated Target makes up 50\% of the data records. This was addressed using balancing \textbf{What is SMOTE?} The SMOTE implementation from \textit{imbalanced-learn} in the \textit{sci-kit learn} library was used.
+
+\begin{figure} [H]
+    \centering
+    \includegraphics[width=0.8\linewidth]{target_plot}
+    \caption{Count of Target variable.}\label{fig:target}
+  \end{figure}  
+
+\subsubsection*{3.2. Feature Engineering}
+
+Mutual Information (MI) is a filter-based feature selection method which measures how mutually dependent two variables are~\cite{venkatesh_anuradha}. This method was used to filter out redundant variables, and was opted for since MI can be used for both discrete and continuous variables. The MI score with target was computed for each variable using \textit{sci-kit learn}. Each feature is assigned a scoring value, with the resulting features being organised in descending order based on the scores and are assigned rankings for the features~\cite{venkatesh_anuradha}. A limitation of this method is that while it measures a feature's importance by it's correlation with the target, it assumes independence of features from each other~\cite{li_etal}. Therefore, choosing the highest scoring variables from MI can lead to redundant features can be selected.
+
+To address this, a pairwise MI matrix was computed. The values were normalised to a range between 0 and 1, presented in Figure~\ref{fig:pairwise_mi}. Redundant variables were removed by checking each MI pairwise score according to a set threshold (0.99) and removing the variable with the lower MI score with the target. The final selected predictors resulted in 17 independent variables.
+
+\begin{figure} [H]
+    \centering
+    \includegraphics[width=0.8\linewidth]{pairwise_mi}
+    \caption{Heatmap of pairwise Mutual Information scores.}\label{fig:pairwise_mi}
+  \end{figure}  
+
+Principal Component Analysis (PCA) was then performed on the dataset for dimensionsality reduction~\cite{gewers_etal}. \textbf{Explain PCA briefly.} The final resulting dataset consisted of 8 independent variables.
+
+\newpage
+\subsubsection*{4.? Logistic Regression}
+
+The multi-class logistic regression model was implemented using the \textit{sci-kit learn} library in Python. The dataset was split into training, validation, and test sets using a 70/20/10 split to ensure that the model was trained on a representative sample and tested on unseen data. Feature scaling was applied using \textbf{StandardScaler?} to ensure that the coefficients of the logistic regression were appropriately scaled.
+
+The LogisticRegression class was utilised with the 'multinomial' option for handling multiple classes. \textbf{Solver lbfgs}. Model evaluation was performed on the test set using metrics the accuracy, precision, recall, F1-score metrics, and a confusion matrix to assess classification performance. The \textit{scikit-learn} classification\_report and confusion\_matrix functions were used for this. 
+
+Table~\ref{tab:logist_results} shows the results of the classification report and Figure~\ref{fig:logist_confusion} shows the confusion matrix. The overall model accuracy is 61\%. Results show that the Dropout target has the highest Precision and F1-Scores, indicating that the model has the best results for predicting this class over others. The model struggles most in predicting the Enrolled target, with an F1-score of 0.54.
+ 
+\begin{table}[h!]
+  \centering
+  \begin{tabular}{ | m{2.5cm} || m{2cm} | m{2cm} | m{2cm} | } 
+    \hline
+    \textbf{Target} & \textbf{Precision} & \textbf{Recall} & \textbf{F1-Score} \\ 
+    \hline
+    \hline
+    \textbf{Graduate} & 0.61 & 0.59 & 0.60 \\ 
+    \hline
+    \textbf{Dropout} & 0.74 & 0.67 & 0.70 \\ 
+    \hline
+    \textbf{Enrolled} & 0.51 & 0.57 & 0.54 \\
+    \hline
+  \end{tabular}
+  \caption{Classification report for Logistic Regression model.}
+  \label{tab:logist_results}
+\end{table}
+
+\begin{figure} [H]
+  \centering
+  \includegraphics[width=0.8\linewidth]{logist_confusion}
+  \caption{Confusion Matrix of the Logistic Regression model.}\label{fig:logist_confusion}
+\end{figure}  
+
+\printbibliography[heading=bibintoc, title={References}]
+\end{document}
