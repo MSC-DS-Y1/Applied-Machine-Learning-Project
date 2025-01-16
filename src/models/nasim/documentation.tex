@@ -76,11 +76,10 @@ This is then passed to a function which converts \(z\) to a value between 0 and 
 
 After being passed through the Sigmoid function, the data point is then given the prediction of belonging to the class 0 or 1. Therefore, if \(\sigma(w^{T}x) \geq 0.5\) then the outcome is class 1, and if \(\sigma(w^{T}x) < 0.5\) then the outcome is class 0. The weights of the logistic regression model are found during training the model using \textbf{discuss Logistic Regression cost function}.
 
-While standard logistic regression gives a binary outcome variable, it can also be used for multi-class problems. This is done using techniques such as one-vs-rest (OvR). The one-vs-rest model trains separate binary classifiers for each class, with each classifier distinguishing one class from the rest \textbf{Source? Find other techniques}.
+While standard logistic regression gives a binary outcome variable, it can also be used for multi-class problems. This is done using techniques such as one-vs-rest (OvR). The one-vs-rest model trains separate binary classifiers for each class, with each classifier distinguishing one class from the rest \textbf{Source? Softmax regression}.
 
 \newpage
 \subsection*{3. Data Preparation}
-\subsubsection*{3.1. Exploratory Analysis}
 The initial dataset consisted of 4424 records with 36 independent variables, with no missing values. The dataset was processed using the \textit{pandas} library in Python.
 
 \begin{itemize}
@@ -94,8 +93,6 @@ Each student entry has one of 3 Target variables: Graduated, Dropout, or Enrolle
     \includegraphics[width=0.8\linewidth]{target_plot}
     \caption{Count of Target variable.}\label{fig:target}
   \end{figure}  
-
-\subsubsection*{3.2. Feature Engineering}
 
 Mutual Information (MI) is a filter-based feature selection method which measures how mutually dependent two variables are~\cite{VenkateshAnuradha2019}. This method was used to filter out redundant variables, and was opted for since MI can be used for both discrete and continuous variables. The MI score with target was computed for each variable using \textit{sci-kit learn}. Each feature is assigned a scoring value, with the resulting features being organised in descending order based on the scores and are assigned rankings for the features~\cite{VenkateshAnuradha2019}. A limitation of this method is that while it measures a feature's importance by it's correlation with the target, it assumes independence of features from each other~\cite{Li2017}. Therefore, choosing the highest scoring variables from MI can lead to redundant features can be selected.
 
@@ -113,35 +110,63 @@ Principal Component Analysis (PCA) was then performed on the dataset for dimensi
 \subsection*{4. Experiments}
 \subsubsection*{4.? Logistic Regression}
 
-The multi-class logistic regression model was implemented using the \textit{sci-kit learn} library in Python. The dataset was split into training, validation, and test sets using a 70/20/10 split to ensure that the model was trained on a representative sample and tested on unseen data. Feature scaling was applied using \textbf{StandardScaler?} to ensure that the coefficients of the logistic regression were appropriately scaled.
+The multi-class logistic regression model was implemented using the \textit{sci-kit learn} library in Python. The dataset was split into 80\% training and 20\% testing sets. A validation set was not used since logistic regression does not need it to refine parameters \textbf{source?}
 
-\textbf{The LogisticRegression class was utilised - 'multinomial' option? OvR or cross-entropy loss?} \textbf{Solver lbfgs}. Model evaluation was performed on the test set using metrics the accuracy, precision, recall, F1-score metrics, and a confusion matrix to assess classification performance. The \textit{scikit-learn} classification\_report and confusion\_matrix functions were used for this. 
+\textbf{The LogisticRegression class was utilised. The model was run twice, one using the One-vs-Rest approach and one with the Multinomial (Softmax Regression) by specifying the multi\_class parameter.} 
 
-Table~\ref{tab:logist_results} shows the results of the classification report and Figure~\ref{fig:logist_confusion} shows the confusion matrix. The overall model accuracy is 61\%. Results show that the Dropout target has the highest Precision and F1-Scores, indicating that the model has the best results for predicting this class over others. The model struggles most in predicting the Enrolled target, with an F1-score of 0.54.
+\textbf{Solver? This class implements regularized logistic regression using the 'liblinear' library, 'newton-cg', 'sag', 'saga' and 'lbfgs' solvers. Regularisation}. 
+
+Model evaluation was performed on the test set using the precision, recall, and F1-score metrics, and a confusion matrix to assess classification performance. The \textit{scikit-learn} classification\_report and confusion\_matrix functions were used for this. 
+
+Tables~\ref{tab:logist_multinomial} and ~\ref{tab:logist_ovr} show the classification reports for the model using the Multinomial and One-vs-Rest approaches respectively. For the Multinomial approach, the overall model F1-Score accuracy is 68\%. The results show that all three classes produce an F1-Score of 72 to 73\%. In comparison, the OvR approach had an overall F1-score accuracy is 67\%. However, the model performed significantly worse on the Dropout class, with a 56\% F1-score, in comparison to the Multinomial version. It should be noted that the precision and recall for both versions had very similar results. For comparison with the other models, the Multinomial version was chosen.
  
 \begin{table}[h!]
+  \renewcommand{\arraystretch}{1.2} % Adjust row height
   \centering
   \begin{tabular}{ | m{2.5cm} || m{2cm} | m{2cm} | m{2cm} | } 
     \hline
     \textbf{Target} & \textbf{Precision} & \textbf{Recall} & \textbf{F1-Score} \\ 
     \hline
     \hline
-    \textbf{Graduate} & 0.61 & 0.59 & 0.60 \\ 
+    \textbf{Graduate} & 0.75 & 0.72 & 0.73 \\ 
     \hline
-    \textbf{Dropout} & 0.74 & 0.67 & 0.70 \\ 
+    \textbf{Dropout} & 0.60 & 0.54 & 0.72 \\ 
     \hline
-    \textbf{Enrolled} & 0.51 & 0.57 & 0.54 \\
+    \textbf{Enrolled} & 0.68 & 0.77 & 0.72 \\
+    \hline
+    \hline
+    Accuracy & \- & \- & 0.68 \\
+    \hline
+    Weighted Avg & 0.67 & 0.68 & 0.67 \\
     \hline
   \end{tabular}
-  \caption{Classification report for Logistic Regression model.}
-  \label{tab:logist_results}
+  \caption{Classification report for Logistic Regression model using Softmax Regression.}
+  \label{tab:logist_multinomial}
 \end{table}
 
-\begin{figure} [H]
+\begin{table}[h!]
+  \renewcommand{\arraystretch}{1.2} % Adjust row height
   \centering
-  \includegraphics[width=0.8\linewidth]{logist_confusion}
-  \caption{Confusion Matrix of the Logistic Regression model.}\label{fig:logist_confusion}
-\end{figure}  
+  \begin{tabular}{ | m{2.5cm} || m{2cm} | m{2cm} | m{2cm} | } 
+    \hline
+    \textbf{Target} & \textbf{Precision} & \textbf{Recall} & \textbf{F1-Score} \\ 
+    \hline
+    \hline
+    \textbf{Graduate} & 0.75 & 0.71 & 0.73 \\ 
+    \hline
+    \textbf{Dropout} & 0.60 & 0.53 & 0.56 \\ 
+    \hline
+    \textbf{Enrolled} & 0.67 & 0.79 & 0.72 \\
+    \hline
+    \hline
+    Accuracy & \- & \- & 0.67 \\
+    \hline
+    Weighted Avg & 0.67 & 0.67 & 0.67 \\
+    \hline
+  \end{tabular}
+  \caption{Classification report for Logistic Regression model using One-vs-Rest.}
+  \label{tab:logist_ovr}
+\end{table}
 
 \printbibliography[heading=bibintoc, title={References}]
 \end{document}
