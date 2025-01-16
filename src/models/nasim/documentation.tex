@@ -74,9 +74,9 @@ This is then passed to a function which converts \(z\) to a value between 0 and 
 \end{figure}  
 
 
-After being passed through the Sigmoid function, the data point is then given the prediction of belonging to the class 0 or 1. Therefore, if \(\sigma(w^{T}x) \geq 0.5\) then the outcome is class 1, and if \(\sigma(w^{T}x) < 0.5\) then the outcome is class 0. The weights of the logistic regression model are found during training the model using Maximum Likelihood Estimation (MLE) as the cost function~\cite{Li2024}.
+After being passed through the Sigmoid function, the data point is then given the prediction of belonging to the class 0 or 1. Therefore, if \(\sigma(w^{T}x) \geq 0.5\) then the outcome is class 1, and if \(\sigma(w^{T}x) < 0.5\) then the outcome is class 0. The weights of the logistic regression model are found during training the model using \textbf{discuss Logistic Regression cost function}.
 
-While standard logistic regression gives a binary outcome variable, it can also be used for multi-class problems. This is done using techniques such as one-vs-rest (OvR) \textbf{Other techniques? Find source}. The one-vs-rest model trains separate binary classifiers for each class, with each classifier distinguishing one class from the rest. 
+While standard logistic regression gives a binary outcome variable, it can also be used for multi-class problems. This is done using techniques such as one-vs-rest (OvR). The one-vs-rest model trains separate binary classifiers for each class, with each classifier distinguishing one class from the rest \textbf{Source? Find other techniques}.
 
 \newpage
 \subsection*{3. Data Preparation}
@@ -107,7 +107,7 @@ To address this, a pairwise MI matrix was computed. The values were normalised t
     \caption{Heatmap of pairwise Mutual Information scores.}\label{fig:pairwise_mi}
   \end{figure}  
 
-Principal Component Analysis (PCA) was then performed on the dataset for dimensionsality reduction~\cite{Gewers2021}. \textbf{Explain PCA briefly.} The final resulting dataset consisted of 8 independent variables.
+Principal Component Analysis (PCA) was then performed on the dataset for dimensionsality reduction~\cite{Gewers2021}. \textbf{Explain PCA process briefly.} The final resulting dataset consisted of 8 independent variables.
 
 \newpage
 \subsection*{4. Experiments}
