@@ -1,0 +1,388 @@
+{
+  "marital_status_options": [
+    {
+      "name": "Single",
+      "value": 1
+    },
+    {
+      "name": "Married",
+      "value": 2
+    },
+    {
+      "name": "Widower",
+      "value": 3
+    },
+    {
+      "name": "Divorced",
+      "value": 4
+    },
+    {
+      "name": "Facto Union",
+      "value": 5
+    },
+    {
+      "name": "Legally Separated",
+      "value": 6
+    }
+  ],
+  "course_options": [
+    {
+      "name": "Biofuel Production Technologies",
+      "value": 33
+    },
+    {
+      "name": "Animation and Multimedia Design",
+      "value": 171
+    },
+    {
+      "name": "Social Service (Evening Attendance)",
+      "value": 8014
+    },
+    {
+      "name": "Agronomy",
+      "value": 9003
+    },
+    {
+      "name": "Communication Design",
+      "value": 9070
+    },
+    {
+      "name": "Veterinary Nursing",
+      "value": 9085
+    },
+    {
+      "name": "Informatics Engineering",
+      "value": 9119
+    },
+    {
+      "name": "Equinculture",
+      "value": 9130
+    },
+    {
+      "name": "Management",
+      "value": 9147
+    },
+    {
+      "name": "Social Service",
+      "value": 9238
+    },
+    {
+      "name": "Tourism",
+      "value": 9254
+    },
+    {
+      "name": "Nursing",
+      "value": 9500
+    },
+    {
+      "name": "Oral Hygiene",
+      "value": 9556
+    },
+    {
+      "name": "Advertising and Marketing Management",
+      "value": 9670
+    },
+    {
+      "name": "Journalism and Communication",
+      "value": 9773
+    },
+    {
+      "name": "Basic Education",
+      "value": 9853
+    },
+    {
+      "name": "Management (Evening Attendance)",
+      "value": 9991
+    }
+  ],
+  "nationality_options": [
+    {
+      "name": "Portuguese",
+      "value": 1
+    },
+    {
+      "name": "German",
+      "value": 2
+    },
+    {
+      "name": "Spanish",
+      "value": 6
+    },
+    {
+      "name": "Italian",
+      "value": 11
+    },
+    {
+      "name": "Dutch",
+      "value": 13
+    },
+    {
+      "name": "English",
+      "value": 14
+    },
+    {
+      "name": "Lithuanian",
+      "value": 17
+    },
+    {
+      "name": "Angolan",
+      "value": 21
+    },
+    {
+      "name": "Cape Verdean",
+      "value": 22
+    },
+    {
+      "name": "Guinean",
+      "value": 24
+    },
+    {
+      "name": "Mozambican",
+      "value": 25
+    },
+    {
+      "name": "Santomean",
+      "value": 26
+    },
+    {
+      "name": "Turkish",
+      "value": 32
+    },
+    {
+      "name": "Brazilian",
+      "value": 41
+    },
+    {
+      "name": "Romanian",
+      "value": 62
+    },
+    {
+      "name": "Moldova (Republic of)",
+      "value": 100
+    },
+    {
+      "name": "Mexican",
+      "value": 101
+    },
+    {
+      "name": "Ukrainian",
+      "value": 103
+    },
+    {
+      "name": "Russian",
+      "value": 105
+    },
+    {
+      "name": "Cuban",
+      "value": 108
+    },
+    {
+      "name": "Colombian",
+      "value": 109
+    }
+  ],
+  "qualifications_options": [
+    {
+      "name": "Secondary Education - 12th Year of Schooling or Eq.",
+      "value": 1
+    },
+    {
+      "name": "Higher Education - Bachelor's Degree",
+      "value": 2
+    },
+    {
+      "name": "Higher Education - Degree",
+      "value": 3
+    },
+    {
+      "name": "Higher Education - Master's",
+      "value": 4
+    },
+    {
+      "name": "Higher Education - Doctorate",
+      "value": 5
+    },
+    {
+      "name": "Frequency of Higher Education",
+      "value": 6
+    },
+    {
+      "name": "12th Year of Schooling - Not Completed",
+      "value": 9
+    },
+    {
+      "name": "11th Year of Schooling - Not Completed",
+      "value": 10
+    },
+    {
+      "name": "7th Year (Old)",
+      "value": 11
+    },
+    {
+      "name": "Other - 11th Year of Schooling",
+      "value": 12
+    },
+    {
+      "name": "2nd year complementary high school course",
+      "value": 13
+    },
+    {
+      "name": "10th Year of Schooling",
+      "value": 14
+    },
+    {
+      "name": "General commerce course",
+      "value": 18
+    },
+    {
+      "name": "Basic Education 3rd Cycle (9th/10th/11th Year) or Equiv.",
+      "value": 19
+    },
+    {
+      "name": "Complementary High School Course",
+      "value": 20
+    },
+    {
+      "name": "Technical-professional course",
+      "value": 22
+    },
+    {
+      "name": "Complementary High School Course - not concluded",
+      "value": 25
+    },
+    {
+      "name": "7th year of schooling",
+      "value": 26
+    },
+    {
+      "name": "2nd cycle of the general high school course",
+      "value": 27
+    },
+    {
+      "name": "9th Year of Schooling - Not Completed",
+      "value": 29
+    },
+    {
+      "name": "8th year of schooling",
+      "value": 30
+    },
+    {
+      "name": "General Course of Administration and Commerce",
+      "value": 31
+    },
+    {
+      "name": "Supplementary Accounting and Administration",
+      "value": 33
+    },
+    {
+      "name": "Unknown",
+      "value": 34
+    },
+    {
+      "name": "Can't read or write",
+      "value": 35
+    },
+    {
+      "name": "Can read without having a 4th year of schooling",
+      "value": 36
+    },
+    {
+      "name": "Basic education 1st cycle (4th/5th year) or equiv.",
+      "value": 37
+    },
+    {
+      "name": "Basic Education 2nd Cycle (6th/7th/8th Year) or Equiv.",
+      "value": 38
+    },
+    {
+      "name": "Technological specialization course",
+      "value": 39
+    },
+    {
+      "name": "Higher education - degree (1st cycle)",
+      "value": 40
+    },
+    {
+      "name": "Specialized higher studies course",
+      "value": 41
+    },
+    {
+      "name": "Professional higher technical course",
+      "value": 42
+    },
+    {
+      "name": "Higher Education - Master (2nd cycle)",
+      "value": 43
+    },
+    {
+      "name": "Higher Education - Doctorate (3rd cycle)",
+      "value": 44
+    }
+  ],
+  "occupations_options": [
+    {
+      "name": "Student",
+      "value": 0
+    },
+    {
+      "name": "Representatives of the Legislative Power and Executive Bodies, Directors, Directors and Executive Managers",
+      "value": 1
+    },
+    {
+      "name": "Specialists in Intellectual and Scientific Activities",
+      "value": 2
+    },
+    {
+      "name": "Intermediate Level Technicians and Professions",
+      "value": 3
+    },
+    {
+      "name": "Administrative staff",
+      "value": 4
+    },
+    {
+      "name": "Personal Services, Security and Safety Workers and Sellers",
+      "value": 5
+    },
+    {
+      "name": "Farmers and Skilled Workers in Agriculture, Fisheries and Forestry",
+      "value": 6
+    },
+    {
+      "name": "Skilled Workers in Industry, Construction and Craftsmen",
+      "value": 7
+    },
+    {
+      "name": "Installation and Machine Operators and Assembly Workers",
+      "value": 8
+    },
+    {
+      "name": "Unskilled Workers",
+      "value": 9
+    },
+    {
+      "name": "Armed Forces Professions",
+      "value": 10
+    },
+    {
+      "name": "Other Situation",
+      "value": 90
+    },
+    {
+      "name": "(blank)",
+      "value": 99
+    },
+    {
+      "name": "Health professionals",
+      "value": 122
+    },
+    {
+      "name": "Teachers",
+      "value": 123
+    },
+    {
+      "name": "Specialists in information and communication technologies (ICT)",
+      "value": 125
+    }
+  ]
+}
