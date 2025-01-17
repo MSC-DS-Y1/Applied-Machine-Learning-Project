@@ -110,7 +110,8 @@ def main():
       title="Student Data Prediction",
       description="Enter student data to get a prediction based on the trained model.",
       theme=gr.themes.Ocean(),
-      clear_btn=None
+      clear_btn=None,
+      allow_flagging=False
   ).launch()
 
 if __name__ == "__main__":
