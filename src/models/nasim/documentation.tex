@@ -58,12 +58,12 @@
 \newpage
 \subsection*{2. Background}
 \subsubsection*{2.? Logistic Regression}
-Logistic regression is a supervised machine learning model, a variant of the linear regression model in which the outcome variable is dichotomous~\cite{Hosmer2013}. Unlike linear regression, logistic regression is used for classification, in which the model finds the boundary line of the classification between the two classes~\cite{Zou2019}. This is represented by the conditional probability \(P(Y|X)\) where \(X\) is a real number (input features) and the random variable \(Y\) takes the value of 1 or 0~\cite{Li2024}. The input variable \(X\) can be desribed as a set of features \((x_0, x_1, x_2, ..., x_n)\) which are multiplied by a set of associated weights \((w_0, w_1, w_2, ..., w_n)\), and summed together to produce the dot product~\cite{Zou2019}. Therefore:
+Logistic regression is a supervised machine learning model and a classification variant of the linear regression model in which the outcome variable is dichotomous~\cite{Hosmer2013}. This is done by finding the boundary line of the classification between two classes~\cite{Zou2019} and giving the probability of a data point belonging to one class. This is represented by the conditional probability \(P(Y|X)\) where \(X\) is a vector of input features and the random variable \(Y\) takes the value of 1 or 0~\cite{Li2024}. The input variable \(X\) can be desribed as a set of features \((x_0, x_1, x_2, ..., x_n)\) which are multiplied by a set of associated weights \((w_0, w_1, w_2, ..., w_n)\), and summed together to produce the dot product~\cite{Zou2019}. Therefore:
 
 \[z = w_{0}x_{0}+ w_{1}x_{1} + w_{2}x_{2} + ... + w_{n}x_{n}\]
 \[z = w \cdot x = w^{T}x\]
 
-This is then passed to a function which converts \(z\) to a value between 0 and 1. The Sigmoid function is the most widely used function for this~\cite{Zou2019}, and the distribution is shown in Figure~\ref{fig:sigmoid}. The Sigmoid function is given by:
+This is then passed to a function which converts \(z\) to a value between 0 and 1. The Sigmoid function is the most widely used function for this~\cite{Zou2019}, and the distribution is shown in Figure~\ref{fig:sigmoid}. Since it is asymptotic, it ensures that the output will always be between 0 and 1. The Sigmoid function is given by:
 
 \[\sigma(z) = \frac{1}{1 + e^{-z}}\]
 
@@ -74,9 +74,20 @@ This is then passed to a function which converts \(z\) to a value between 0 and 
 \end{figure}  
 
 
-After being passed through the Sigmoid function, the data point is then given the prediction of belonging to the class 0 or 1. Therefore, if \(\sigma(w^{T}x) \geq 0.5\) then the outcome is class 1, and if \(\sigma(w^{T}x) < 0.5\) then the outcome is class 0. The weights of the logistic regression model are found during training the model using \textbf{discuss Logistic Regression cost function}.
+After being passed through the Sigmoid function, the data point is then given the prediction of belonging to the class 0 or 1. Therefore, if \(\sigma(w^{T}x) \geq 0.5\) then the outcome is class 1, and if \(\sigma(w^{T}x) < 0.5\) then the outcome is class 0. The point 0.5 is where the point \(z = 0\).
 
-While standard logistic regression gives a binary outcome variable, it can also be used for multi-class problems. This is done using techniques such as one-vs-rest (OvR). The one-vs-rest model trains separate binary classifiers for each class, with each classifier distinguishing one class from the rest \textbf{Source? Softmax regression}.
+The standard cost function for logistic regression is the cross-entropy loss, derived from the Maximum Likelihood Estimation (MLE) principle.~\cite{Li2024}. \textbf{Insert Standard Cost function?}
+
+\[
+\begin{cases} 
+    -\log(\hat{y}), & \text{if } y = 1 \\
+    -\log(1 - \hat{y}), & \text{if } y = 0
+\end{cases}
+\]
+
+The parameter weights (\(w\)) are optimised during training the model, usually by using the gradient descent method~\cite{Zou2019}~\cite{Li2024}.
+
+While standard logistic regression gives a binary outcome variable, it can also be used for multi-class problems. A way to do this is to decompose the problem into multiple logistic regression models, known as the One-vs-Rest (OvR) approach~\cite{Aly2005}. The OvR model trains separate binary classifiers for each class, with each classifier distinguishing one class from the rest. The class with the highest confidence score is chosen for the final prediction. \textbf{Another common approach is using Multinomial Logistic Regression, a unified model that computes the probabilities for multiple class simultaneously. How? Softmax regression. Find source.}
 
 \newpage
 \subsection*{3. Data Preparation}
@@ -86,7 +97,7 @@ The initial dataset consisted of 4424 records with 36 independent variables, wit
     \item{\textbf{Note: Should I include means of variance tables despite not all variables being in the final MI dataset?}}
 \end{itemize}
 
-Each student entry has one of 3 Target variables: Graduated, Dropout, or Enrolled (where the student took another three years to complete the course). The distribution of the Target variable is shown in Figure~\ref{fig:target}, which shows that it is imbalanced, where the Graduated Target makes up 50\% of the data records. This was addressed using the Synthetic Minority Over-sampling Technique (SMOTE), an oversampling algorithm which generates synthetic data using \textit{k} nearest neighbours~\cite{smote}. The SMOTE implementation from \textit{imbalanced-learn} in the \textit{sci-kit learn} library was used.
+Each student entry has one of 3 Target variables: Graduated, Dropout, or Enrolled (where the student took another three years to complete the course). The distribution of the Target variable is shown in Figure~\ref{fig:target}, which shows that it is imbalanced, where the Graduated Target makes up 50\% of the data records. This was addressed using the Synthetic Minority Over-sampling Technique (SMOTE), an oversampling algorithm which generates synthetic data using \textit{k} nearest neighbours~\cite{smote}. The SMOTE implementation from \textit{imbalanced-learn} in the \textit{scikit-learn} library was used.
 
 \begin{figure} [H]
     \centering
@@ -94,7 +105,7 @@ Each student entry has one of 3 Target variables: Graduated, Dropout, or Enrolle
     \caption{Count of Target variable.}\label{fig:target}
   \end{figure}  
 
-Mutual Information (MI) is a filter-based feature selection method which measures how mutually dependent two variables are~\cite{VenkateshAnuradha2019}. This method was used to filter out redundant variables, and was opted for since MI can be used for both discrete and continuous variables. The MI score with target was computed for each variable using \textit{sci-kit learn}. Each feature is assigned a scoring value, with the resulting features being organised in descending order based on the scores and are assigned rankings for the features~\cite{VenkateshAnuradha2019}. A limitation of this method is that while it measures a feature's importance by it's correlation with the target, it assumes independence of features from each other~\cite{Li2017}. Therefore, choosing the highest scoring variables from MI can lead to redundant features can be selected.
+Mutual Information (MI) is a filter-based feature selection method which measures how mutually dependent two variables are~\cite{VenkateshAnuradha2019}. This method was used to filter out redundant variables, and was opted for since MI can be used for both discrete and continuous variables. The MI score with target was computed for each variable using \textit{scikit-learn}. Each feature is assigned a scoring value, with the resulting features being organised in descending order based on the scores and are assigned rankings for the features~\cite{VenkateshAnuradha2019}. A limitation of this method is that while it measures a feature's importance by it's correlation with the target, it assumes independence of features from each other~\cite{Li2017}. Therefore, choosing the highest scoring variables from MI can lead to redundant features can be selected.
 
 To address this, a pairwise MI matrix was computed. The values were normalised to a range between 0 and 1, presented in Figure~\ref{fig:pairwise_mi}. Redundant variables were removed by checking each MI pairwise score according to a set threshold (0.99) and removing the variable with the lower MI score with the target. The final selected predictors resulted in 17 independent variables.
 
@@ -110,15 +121,13 @@ Principal Component Analysis (PCA) was then performed on the dataset for dimensi
 \subsection*{4. Experiments}
 \subsubsection*{4.? Logistic Regression}
 
-The multi-class logistic regression model was implemented using the \textit{sci-kit learn} library in Python. The dataset was split into 80\% training and 20\% testing sets. A validation set was not used since logistic regression does not need it to refine parameters \textbf{source?}
+The multi-class logistic regression model was implemented using the \textit{scikit-learn} library in Python. The dataset was split into 80\% training and 20\% testing sets. A validation set was not used since logistic regression does not use this for refining parameters.
 
-\textbf{The LogisticRegression class was utilised. The model was run twice, one using the One-vs-Rest approach and one with the Multinomial (Softmax Regression) by specifying the multi\_class parameter.} 
+Model evaluation was performed on the test set using the precision, recall, and F1-score metrics to assess classification performance. The \textit{scikit-learn} classification\_report function was used for this. 
 
-\textbf{Solver? This class implements regularized logistic regression using the 'liblinear' library, 'newton-cg', 'sag', 'saga' and 'lbfgs' solvers. Regularisation}. 
+The \textit{scikit} LogisticRegression class was utilised. The model was run twice. The first run used the multinomial approach, which is now default for the LogisticRegression class. A second model was run using the One-vs-Rest approach using the OneVsRestClassifier class. The results are presented in Tables~\ref{tab:logist_multinomial} and ~\ref{tab:logist_ovr} respectively. 
 
-Model evaluation was performed on the test set using the precision, recall, and F1-score metrics, and a confusion matrix to assess classification performance. The \textit{scikit-learn} classification\_report and confusion\_matrix functions were used for this. 
-
-Tables~\ref{tab:logist_multinomial} and ~\ref{tab:logist_ovr} show the classification reports for the model using the Multinomial and One-vs-Rest approaches respectively. For the Multinomial approach, the overall model F1-Score accuracy is 68\%. The results show that all three classes produce an F1-Score of 72 to 73\%. In comparison, the OvR approach had an overall F1-score accuracy is 67\%. However, the model performed significantly worse on the Dropout class, with a 56\% F1-score, in comparison to the Multinomial version. It should be noted that the precision and recall for both versions had very similar results. For comparison with the other models, the Multinomial version was chosen.
+Results show that, for the Multinomial approach, the overall model F1-Score accuracy is 68\%. The results show that all three classes produce an F1-Score of 72 to 73\%. In comparison, the OvR approach had an overall F1-score accuracy is 67\%. However, the model performed significantly worse on the Dropout class, with a 56\% F1-score, in comparison to the Multinomial version. It should be noted that the precision and recall for both versions had very similar results. For comparison with the other models, the Multinomial version was chosen.
  
 \begin{table}[h!]
   \renewcommand{\arraystretch}{1.2} % Adjust row height
@@ -140,7 +149,7 @@ Tables~\ref{tab:logist_multinomial} and ~\ref{tab:logist_ovr} show the classific
     Weighted Avg & 0.67 & 0.68 & 0.67 \\
     \hline
   \end{tabular}
-  \caption{Classification report for Logistic Regression model using Softmax Regression.}
+  \caption{Classification report for Logistic Regression model using Multinomial Logistic Regression.}
   \label{tab:logist_multinomial}
 \end{table}
 
