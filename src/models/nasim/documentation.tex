@@ -58,7 +58,7 @@
 \newpage
 \subsection*{2. Background}
 \subsubsection*{2.? Logistic Regression}
-Logistic regression is a supervised machine learning model and a classification variant of the linear regression model in which the outcome variable is dichotomous~\cite{Hosmer2013}. This is done by finding the boundary line of the classification between two classes~\cite{Zou2019} and giving the probability of a data point belonging to one class. This is represented by the conditional probability \(P(Y|X)\) where \(X\) is a vector of input features and the random variable \(Y\) takes the value of 1 or 0~\cite{Li2024}. The input variable \(X\) can be desribed as a set of features \((x_0, x_1, x_2, ..., x_n)\) which are multiplied by a set of associated weights \((w_0, w_1, w_2, ..., w_n)\), and summed together to produce the dot product~\cite{Zou2019}. Therefore:
+Logistic regression is a supervised machine learning model and a classification variant of the linear regression model in which the outcome variable is dichotomous~\cite{Zou2019}. This is done by finding the decision boundary of the classification between two classes and giving the probability of a data point belonging to one class. This is represented by the conditional probability \(P(Y|X)\) where \(X\) is a vector of input features and the random variable \(Y\) takes the value of 1 or 0~\cite{Li2024}. The input variable \(X\) can be desribed as a set of features \((x_0, x_1, x_2, ..., x_n)\) which are multiplied by a set of associated weights \((w_0, w_1, w_2, ..., w_n)\), and summed together to produce the dot product~\cite{Zou2019}. Therefore:
 
 \[z = w_{0}x_{0}+ w_{1}x_{1} + w_{2}x_{2} + ... + w_{n}x_{n}\]
 \[z = w \cdot x = w^{T}x\]
@@ -76,7 +76,7 @@ This is then passed to a function which converts \(z\) to a value between 0 and 
 
 After being passed through the Sigmoid function, the data point is then given the prediction of belonging to the class 0 or 1. Therefore, if \(\sigma(w^{T}x) \geq 0.5\) then the outcome is class 1, and if \(\sigma(w^{T}x) < 0.5\) then the outcome is class 0. The point 0.5 is where the point \(z = 0\).
 
-The standard cost function for logistic regression is the cross-entropy loss, derived from the Maximum Likelihood Estimation (MLE) principle.~\cite{Li2024}. \textbf{Insert Standard Cost function?}
+The standard cost function for logistic regression is the cross-entropy loss, derived from the Maximum Likelihood Estimation (MLE) principle.~\cite{Bishop2006}. This is given as:
 
 \[
 \begin{cases} 
@@ -85,19 +85,15 @@ The standard cost function for logistic regression is the cross-entropy loss, de
 \end{cases}
 \]
 
-The parameter weights (\(w\)) are optimised during training the model, usually by using the gradient descent method~\cite{Zou2019}~\cite{Li2024}.
+ The parameter weights (\(w\)) are optimised during training the model, usually by using gradient descent~\cite{Zou2019}~\cite{Li2024}. This iterative process adjusts the weights to reduce the error between the predicted probabilities and the actual classes.
 
-While standard logistic regression gives a binary outcome variable, it can also be used for multi-class problems. A way to do this is to decompose the problem into multiple logistic regression models, known as the One-vs-Rest (OvR) approach~\cite{Aly2005}. The OvR model trains separate binary classifiers for each class, with each classifier distinguishing one class from the rest. The class with the highest confidence score is chosen for the final prediction. \textbf{Another common approach is using Multinomial Logistic Regression, a unified model that computes the probabilities for multiple class simultaneously. How? Softmax regression. Find source.}
+While standard logistic regression gives a binary outcome variable, it can also be used for multi-class problems. A way to do this is to decompose the problem into multiple logistic regression models, known as the One-vs-Rest (OvR) approach~\cite{Aly2005}. The OvR model trains separate binary classifiers for each class, with each classifier distinguishing one class from the rest. The class with the highest confidence score is chosen for the final prediction. Another method is using multinomial logistic regression, or softmax regression, an extension of logistic regression which computes the probabilities for multiple class simultaneously~\cite{Yin2018}.
 
 \newpage
 \subsection*{3. Data Preparation}
 The initial dataset consisted of 4424 records with 36 independent variables, with no missing values. The dataset was processed using the \textit{pandas} library in Python.
 
-\begin{itemize}
-    \item{\textbf{Note: Should I include means of variance tables despite not all variables being in the final MI dataset?}}
-\end{itemize}
-
-Each student entry has one of 3 Target variables: Graduated, Dropout, or Enrolled (where the student took another three years to complete the course). The distribution of the Target variable is shown in Figure~\ref{fig:target}, which shows that it is imbalanced, where the Graduated Target makes up 50\% of the data records. This was addressed using the Synthetic Minority Over-sampling Technique (SMOTE), an oversampling algorithm which generates synthetic data using \textit{k} nearest neighbours~\cite{smote}. The SMOTE implementation from \textit{imbalanced-learn} in the \textit{scikit-learn} library was used.
+Each student entry has one of 3 Target variables: Graduated, Dropout, or Enrolled (where the student took another three years to complete the course). The distribution of the Target variable as seen in Figure~\ref{fig:target} shows that it is imbalanced, where the Graduated Target makes up 50\% of the data records. This was addressed using the Synthetic Minority Over-sampling Technique (SMOTE), an oversampling algorithm which generates synthetic data using \textit{k} nearest neighbours~\cite{smote}. The SMOTE implementation from \textit{imbalanced-learn} in the \textit{scikit-learn} library was used.
 
 \begin{figure} [H]
     \centering
@@ -115,7 +111,7 @@ To address this, a pairwise MI matrix was computed. The values were normalised t
     \caption{Heatmap of pairwise Mutual Information scores.}\label{fig:pairwise_mi}
   \end{figure}  
 
-Principal Component Analysis (PCA) was then performed on the dataset for dimensionsality reduction~\cite{Gewers2021}. \textbf{Explain PCA process briefly.} The final resulting dataset consisted of 8 independent variables.
+Principal Component Analysis (PCA) was then performed on the dataset for dimensionsality reduction and determining the optimal number of components required to explain the variance in the data. In this case, 95\% variance was chosen. The dataset was normalised using StandardScaler. The final resulting dataset consisted of 14 PCA components.
 
 \newpage
 \subsection*{4. Experiments}
